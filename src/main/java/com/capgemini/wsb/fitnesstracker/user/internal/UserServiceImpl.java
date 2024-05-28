@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,18 +28,55 @@ class UserServiceImpl implements UserService, UserProvider {
     }
 
     @Override
+    public User updateUser(Long id, User user){
+        return null;
+    }
+
+
+    /**
+    @Override
+    public User updateUser(Long id, User user) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User existingUser = userOptional.get();
+            existingUser.setFirstName(user.getFirstName());
+            existingUser.setLastName(user.getLastName());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setBirthdate(user.getBirthdate())
+            return userRepository.save(existingUser);
+        } else {
+            return null; // do zmiany
+        }
+    } **/
+
+    @Override
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
     public Optional<User> getUser(final Long userId) {
         return userRepository.findById(userId);
     }
 
     @Override
     public Optional<User> getUserByEmail(final String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.getUserByEmail(email);
     }
+
 
     @Override
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
+    @Override
+    public List<User> findUsersOlderThan(LocalDate chosenDate) {
+        return userRepository.findUsersOlderThan(chosenDate);
+    }
+
+    @Override
+    public List<User> findByEmailPartIgnoreCase(String emailPart) {
+        return userRepository.findByEmailPartIgnoreCase(emailPart);
+    }
 }
