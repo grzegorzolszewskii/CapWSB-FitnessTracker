@@ -2,6 +2,8 @@ package com.capgemini.wsb.fitnesstracker.user.internal;
 
 import com.capgemini.wsb.fitnesstracker.user.api.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -24,7 +26,15 @@ interface UserRepository extends JpaRepository<User, Long> {
                         .findFirst();
     }
 
-    default List<User> findUsersOlderThan(LocalDate chosenDate) {
+
+    @Query("SELECT u FROM User u WHERE u.birthdate < :chosenDate")
+    List<User> findUsersOlderThan(@Param("chosenDate") LocalDate chosenDate);
+
+    @Query("SELECT u FROM User u WHERE LOWER(u.email) LIKE LOWER('%:email%')")
+    List<User> findByEmailPartIgnoreCase(@Param("email") String email);
+
+
+    /** default List<User> findUsersOlderThan(LocalDate chosenDate) {
         return findAll().stream()
                 .filter(user -> user.getBirthdate().isBefore(chosenDate))
                 .toList();
@@ -34,6 +44,6 @@ interface UserRepository extends JpaRepository<User, Long> {
         return findAll().stream()
                 .filter(user -> user.getEmail().toLowerCase().contains(emailPart.toLowerCase()))
                 .collect(Collectors.toList());
-    }
+    } **/
 
 }
