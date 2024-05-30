@@ -32,7 +32,6 @@ class UserServiceImpl implements UserService, UserProvider {
         return null;
     }
 
-
     /**
     @Override
     public User updateUser(Long id, User user) {

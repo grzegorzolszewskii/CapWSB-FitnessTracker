@@ -46,42 +46,5 @@ public class User {
         this.birthdate = birthdate;
         this.email = email;
     }
-
-    public Long getId(){
-        return id;
-    }
-
-    private void setFirstName(String firstName){
-        this.firstName = firstName;
-    }
-
-    public String getFirstName(){
-        return firstName;
-    }
-
-    private void setLastName(String lastName){
-        this.lastName = lastName;
-    }
-
-    public String getLastName(){
-        return lastName;
-    }
-
-    private void setBirthdate(LocalDate birthdate){
-        this.birthdate = birthdate;
-    }
-
-    public LocalDate getBirthdate(){
-        return birthdate;
-    }
-
-    private void setEmail(String email){
-        this.email = email;
-    }
-
-    public String getEmail(){
-        return email;
-    }
-
 }
 
