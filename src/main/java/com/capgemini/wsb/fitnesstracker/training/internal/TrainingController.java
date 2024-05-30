@@ -23,20 +23,20 @@ class TrainingController {
     private final TrainingServiceImpl trainingService;
     private final TrainingMapper trainingMapper;
 
-    @PostMapping
+    @PostMapping("/add")
     public TrainingDto addTraining(@RequestBody TrainingDto trainingDto) {
         Training training = trainingMapper.toEntity(trainingDto);
         Training createdTraining = trainingService.createTraining(training);
         return trainingMapper.toDto(createdTraining);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteTraining(@PathVariable Long id) {
         Optional<Training> trainingOptional = trainingService.getTrainingById(id);
         trainingService.deleteTraining(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public TrainingDto updateTraining(@PathVariable Long id, @RequestBody TrainingDto trainingDto) {
         Optional<Training> trainingUpdated = trainingService.getTrainingById(id);
         Training trainingForUpdate = trainingMapper.toEntity(trainingDto);
@@ -55,7 +55,7 @@ class TrainingController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/userid/{id}")
     public TrainingDto getTrainingByUserId(@PathVariable Long userId) {
         Optional<Training> trainingOptional = trainingService.getTrainingByUserId(userId);
         if (trainingOptional.isPresent()) {
@@ -73,7 +73,7 @@ class TrainingController {
                 .toList();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/older_than")
     public List<TrainingDto> getTrainingsOlderThan(Date chosenDate){
         return trainingService.getTrainingsOlderThan(chosenDate)
                 .stream()
@@ -81,7 +81,7 @@ class TrainingController {
                 .toList();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/activity")
     public List<TrainingDto> getTrainingsByActivity(ActivityType activity){
         return trainingService.getTrainingsByActivity(activity)
                 .stream()

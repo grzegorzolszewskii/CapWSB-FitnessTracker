@@ -21,20 +21,20 @@ class UserController {
     private final UserServiceImpl userService;
     private final UserMapper userMapper;
 
-    @PostMapping
+    @PostMapping("/add")
     public UserDto addUser(@RequestBody UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         User createdUser = userService.createUser(user);
         return userMapper.toDto(createdUser);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable Long id) {
         Optional<User> userOptional = userService.getUserById(id);
         userService.deleteUser(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
         Optional<User> userUpdated = userService.getUserById(id);
         User userForUpdate = userMapper.toEntity(userDto);
@@ -61,8 +61,8 @@ class UserController {
                 .toList();
     }
 
-    @GetMapping("/{id}")
-    public UserDto getUserByEmail(@PathVariable String email) {
+    @GetMapping("/email")
+    public UserDto getUserByEmail(@RequestParam String email) {
         Optional<User> userOptional = userService.getUserByEmail(email);
         if (userOptional.isPresent()) {
             return userMapper.toDto(userOptional.get());
@@ -71,16 +71,16 @@ class UserController {
         }
     }
 
-    @GetMapping("/{id}")
-    public List<UserDto> findUsersOlderThan(LocalDate chosenDate){
+    @GetMapping("/older_than")
+    public List<UserDto> findUsersOlderThan(@RequestParam LocalDate chosenDate){
         return userService.findUsersOlderThan(chosenDate)
                 .stream()
                 .map(userMapper::toDto)
                 .toList();
     }
 
-    @GetMapping("/{id}")
-    public List<UserDto> findByEmailPartIgnoreCase(String emailPart){
+    @GetMapping("/email_part")
+    public List<UserDto> findByEmailPartIgnoreCase(@RequestParam String emailPart){
         return userService.findByEmailPartIgnoreCase(emailPart)
                 .stream()
                 .map(userMapper::toDto)

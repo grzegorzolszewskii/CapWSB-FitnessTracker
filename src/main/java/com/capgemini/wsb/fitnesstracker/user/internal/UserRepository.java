@@ -26,13 +26,11 @@ interface UserRepository extends JpaRepository<User, Long> {
                         .findFirst();
     }
 
-
     @Query("SELECT u FROM User u WHERE u.birthdate < :chosenDate")
     List<User> findUsersOlderThan(@Param("chosenDate") LocalDate chosenDate);
 
-    @Query("SELECT u FROM User u WHERE LOWER(u.email) LIKE LOWER('%:email%')")
+    @Query("SELECT u FROM User u WHERE LOWER(u.email) LIKE LOWER(CONCAT('%', :email, '%'))")
     List<User> findByEmailPartIgnoreCase(@Param("email") String email);
-
 
     /** default List<User> findUsersOlderThan(LocalDate chosenDate) {
         return findAll().stream()
