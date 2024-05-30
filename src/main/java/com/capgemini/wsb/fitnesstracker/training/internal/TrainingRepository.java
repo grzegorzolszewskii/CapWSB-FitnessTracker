@@ -14,11 +14,11 @@ import java.util.Optional;
 interface TrainingRepository extends JpaRepository<Training, Long> {
 
     @Query("SELECT t FROM Training t WHERE t.user.id = :id")
-    List<Training> getTrainingByUser(@Param("id") long id);
+    Optional<Training> getTrainingByUserId(@Param("id") long id);
 
     @Query("SELECT t FROM Training t WHERE t.endTime < :chosenDate")
     List<Training> getTrainingsOlderThan(@Param("chosenDate") Date chosenDate);
 
     @Query("SELECT t FROM Training t WHERE t.activityType = :activity")
-    List<Training> getTrainingByActivityType(@Param("activity") ActivityType activity);
+    List<Training> getTrainingsByActivity(@Param("activity") ActivityType activity);
 }

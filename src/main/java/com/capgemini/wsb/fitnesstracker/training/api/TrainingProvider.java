@@ -16,14 +16,14 @@ public interface TrainingProvider {
      * @param trainingId id of the training to be searched
      * @return An {@link Optional} containing the located Training, or {@link Optional#empty()} if not found
      */
-    Optional<Training> getTraining(Long trainingId);
+    Optional<Training> getTrainingById(Long trainingId);
 
     List<Training> findAllTrainings();
 
-    List<Training> getTrainingByUser(Long id);
+    Optional<Training> getTrainingByUserId(Long id);
 
     List<Training> getTrainingsOlderThan(Date trainingDate);
 
-    List<Training> getTrainingByActivity(ActivityType activity);
+    List<Training> getTrainingsByActivity(ActivityType activity);
 
 }

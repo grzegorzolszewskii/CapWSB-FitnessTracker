@@ -40,7 +40,7 @@ public class TrainingServiceImpl implements TrainingService, TrainingProvider {
     }
 
     @Override
-    public Optional<Training> getTraining(final Long trainingId) {
+    public Optional<Training> getTrainingById(final Long trainingId) {
         return trainingRepository.findById(trainingId);
     }
 
@@ -50,8 +50,8 @@ public class TrainingServiceImpl implements TrainingService, TrainingProvider {
     }
 
     @Override
-    public List<Training> getTrainingByUser(Long id) {
-        return trainingRepository.getTrainingByUser(id);
+    public Optional<Training> getTrainingByUserId(Long id) {
+        return trainingRepository.getTrainingByUserId(id);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class TrainingServiceImpl implements TrainingService, TrainingProvider {
     }
 
     @Override
-    public List<Training> getTrainingByActivity(ActivityType activity) {
-        return trainingRepository.getTrainingByActivity(activity);
+    public List<Training> getTrainingsByActivity(ActivityType activity) {
+        return trainingRepository.getTrainingsByActivity(activity);
     }
 }
