@@ -32,16 +32,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE LOWER(u.email) LIKE LOWER(CONCAT('%', :email, '%'))")
     List<User> findByEmailPartIgnoreCase(@Param("email") String email);
 
-    /** default List<User> findUsersOlderThan(LocalDate chosenDate) {
-        return findAll().stream()
-                .filter(user -> user.getBirthdate().isBefore(chosenDate))
-                .toList();
-    }
-
-    default List<User> findByEmailPartIgnoreCase(String emailPart) {
-        return findAll().stream()
-                .filter(user -> user.getEmail().toLowerCase().contains(emailPart.toLowerCase()))
-                .collect(Collectors.toList());
-    } **/
-
 }

@@ -32,22 +32,6 @@ class UserServiceImpl implements UserService, UserProvider {
         return null;
     }
 
-    /**
-    @Override
-    public User updateUser(Long id, User user) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            User existingUser = userOptional.get();
-            existingUser.setFirstName(user.getFirstName());
-            existingUser.setLastName(user.getLastName());
-            existingUser.setEmail(user.getEmail());
-            existingUser.setBirthdate(user.getBirthdate())
-            return userRepository.save(existingUser);
-        } else {
-            return null; // do zmiany
-        }
-    } **/
-
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);

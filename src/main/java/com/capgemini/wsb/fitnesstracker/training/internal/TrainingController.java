@@ -7,6 +7,7 @@ import com.capgemini.wsb.fitnesstracker.user.api.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/trainings")
@@ -72,11 +74,11 @@ class TrainingController {
     }
 
     @GetMapping("/older_than")
-    public List<TrainingDto> getTrainingsOlderThan(Date chosenDate){
+    public List<TrainingDto> getTrainingsOlderThan(@RequestParam @DateTimeFormat Date chosenDate){
         return trainingService.getTrainingsOlderThan(chosenDate)
                 .stream()
                 .map(trainingMapper::toDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/activity")
