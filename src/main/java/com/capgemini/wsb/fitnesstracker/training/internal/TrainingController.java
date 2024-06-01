@@ -55,14 +55,12 @@ class TrainingController {
         }
     }
 
-    @GetMapping("/userid/{id}")
-    public TrainingDto getTrainingByUserId(@PathVariable Long userId) {
-        Optional<Training> trainingOptional = trainingService.getTrainingByUserId(userId);
-        if (trainingOptional.isPresent()) {
-            return trainingMapper.toDto(trainingOptional.get());
-        } else {
-            throw new IllegalArgumentException();
-        }
+    @GetMapping("/user/{userId}")
+    public List<TrainingDto> getTrainingsByUserId(@PathVariable Long userId) {
+        return trainingService.getTrainingsByUserId(userId)
+                .stream()
+                .map(trainingMapper::toDto)
+                .toList();
     }
 
     @GetMapping

@@ -50,8 +50,8 @@ public class TrainingServiceImpl implements TrainingService, TrainingProvider {
     }
 
     @Override
-    public Optional<Training> getTrainingByUserId(Long id) {
-        return trainingRepository.getTrainingByUserId(id);
+    public List<Training> getTrainingsByUserId(Long id) {
+        return trainingRepository.getTrainingsByUserId(id);
     }
 
     @Override

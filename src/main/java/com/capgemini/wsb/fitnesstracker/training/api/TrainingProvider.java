@@ -20,7 +20,7 @@ public interface TrainingProvider {
 
     List<Training> findAllTrainings();
 
-    Optional<Training> getTrainingByUserId(Long id);
+    List<Training> getTrainingsByUserId(Long id);
 
     List<Training> getTrainingsOlderThan(Date trainingDate);
 

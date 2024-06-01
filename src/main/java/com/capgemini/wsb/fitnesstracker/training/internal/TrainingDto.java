@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-record TrainingDto(Long id, User user,
+record TrainingDto(Long id, Long userId,
                           @JsonFormat(pattern = "yyyy-MM-dd") Date startTime,
                           @JsonFormat(pattern = "yyyy-MM-dd") Date endTime,
                           ActivityType activityType,

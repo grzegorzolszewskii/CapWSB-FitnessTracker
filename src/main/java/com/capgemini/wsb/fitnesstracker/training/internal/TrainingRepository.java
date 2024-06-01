@@ -14,7 +14,7 @@ import java.util.Optional;
 interface TrainingRepository extends JpaRepository<Training, Long> {
 
     @Query("SELECT t FROM Training t WHERE t.user.id = :id")
-    Optional<Training> getTrainingByUserId(@Param("id") long id);
+    List<Training> getTrainingsByUserId(@Param("id") long id);
 
     @Query("SELECT t FROM Training t WHERE t.endTime < :chosenDate")
     List<Training> getTrainingsOlderThan(@Param("chosenDate") Date chosenDate);

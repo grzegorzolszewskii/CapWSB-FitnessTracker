@@ -26,10 +26,10 @@ public class Training {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "start_time", nullable = false)
+    @Column(name = "start_time", nullable = true)
     private Date startTime;
 
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time", nullable = true)
     private Date endTime;
 
     @Enumerated(EnumType.ORDINAL)
