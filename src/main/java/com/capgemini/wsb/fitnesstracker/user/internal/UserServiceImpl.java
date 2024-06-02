@@ -1,6 +1,7 @@
 package com.capgemini.wsb.fitnesstracker.user.internal;
 
 import com.capgemini.wsb.fitnesstracker.user.api.User;
+import com.capgemini.wsb.fitnesstracker.user.api.UserNotFoundException;
 import com.capgemini.wsb.fitnesstracker.user.api.UserProvider;
 import com.capgemini.wsb.fitnesstracker.user.api.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +29,19 @@ class UserServiceImpl implements UserService, UserProvider {
     }
 
     @Override
-    public User updateUserFirstName(Long id, String firstName){
-        User user = userRepository.findById(id).get();
-        user.setFirstName(firstName);
-        return userRepository.save(user);
+    public User updateUser(Long userId, User userForUpdate) {
+        Optional<User> existingUserOptional = userRepository.findById(userId);
+        if (existingUserOptional.isPresent()) {
+            User existingUser = existingUserOptional.get();
+            existingUser.setFirstName(userForUpdate.getFirstName());
+            existingUser.setLastName(userForUpdate.getLastName());
+            existingUser.setBirthdate(userForUpdate.getBirthdate());
+            existingUser.setEmail(userForUpdate.getEmail());
+            return userRepository.save(existingUser);
+        } else {
+            // do poprawy
+            return null;
+        }
     }
 
     @Override

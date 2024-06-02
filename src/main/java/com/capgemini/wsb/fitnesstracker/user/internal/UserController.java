@@ -6,6 +6,7 @@ import com.capgemini.wsb.fitnesstracker.user.api.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,22 +22,25 @@ class UserController {
     private final UserServiceImpl userService;
     private final UserMapper userMapper;
 
-    @PostMapping("/add")
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public UserDto addUser(@RequestBody UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         User createdUser = userService.createUser(user);
         return userMapper.toDto(createdUser);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long id) {
         Optional<User> userOptional = userService.getUserById(id);
         userService.deleteUser(id);
     }
 
-    @PutMapping("/update_firstname/{id}/{firstName}")
-    public UserDto updateUserFirstName(@PathVariable Long id, @PathVariable String firstName) {
-        User updatedUser = userService.updateUserFirstName(id, firstName);
+    @PutMapping("/{id}")
+    public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+        User user = userMapper.toEntity(userDto);
+        User updatedUser = userService.updateUser(id, user);
         return userMapper.toDto(updatedUser);
     }
 
@@ -73,8 +77,8 @@ class UserController {
         }
     }
 
-    @GetMapping("/older_than")
-    public List<UserDto> findUsersOlderThan(@RequestParam LocalDate chosenDate){
+    @GetMapping("/older/{chosenDate}")
+    public List<UserDto> findUsersOlderThan(@PathVariable LocalDate chosenDate){
         return userService.findUsersOlderThan(chosenDate)
                 .stream()
                 .map(userMapper::toDto)
