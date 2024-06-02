@@ -1,5 +1,6 @@
 package com.capgemini.wsb.fitnesstracker.user.internal;
 
+import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
 import com.capgemini.wsb.fitnesstracker.user.api.UserNotFoundException;
 import com.capgemini.wsb.fitnesstracker.user.api.UserProvider;
@@ -42,6 +43,13 @@ class UserServiceImpl implements UserService, UserProvider {
             // do poprawy
             return null;
         }
+    }
+
+    @Override
+    public User updateUserFirstName(Long id, String firstName) {
+        User user = userRepository.findById(id).get();
+        user.setFirstName(firstName);
+        return userRepository.save(user);
     }
 
     @Override

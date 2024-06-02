@@ -1,5 +1,6 @@
 package com.capgemini.wsb.fitnesstracker.user.internal;
 
+import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
 import com.capgemini.wsb.fitnesstracker.user.api.UserNotFoundException;
 import com.capgemini.wsb.fitnesstracker.user.api.UserService;
@@ -34,6 +35,12 @@ class UserController {
     public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         User updatedUser = userService.updateUser(id, user);
+        return userMapper.toDto(updatedUser);
+    }
+
+    @PutMapping("/update_firstname/{id}/{firstName}")
+    public UserDto updateFirstName(@PathVariable Long id, @PathVariable String firstName) {
+        User updatedUser = userService.updateUserFirstName(id, firstName);
         return userMapper.toDto(updatedUser);
     }
 
