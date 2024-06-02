@@ -1,20 +1,12 @@
 package com.capgemini.wsb.fitnesstracker.training.internal;
 
 import com.capgemini.wsb.fitnesstracker.training.api.Training;
-import com.capgemini.wsb.fitnesstracker.training.internal.TrainingDto;
-import com.capgemini.wsb.fitnesstracker.training.internal.TrainingWithFullUserDto;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingNotFoundException;
-import com.capgemini.wsb.fitnesstracker.training.api.TrainingService;
-import com.capgemini.wsb.fitnesstracker.user.api.User;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -52,7 +44,11 @@ class TrainingController {
     @DeleteMapping("/delete/{id}")
     public void deleteTraining(@PathVariable Long id) {
         Optional<Training> trainingOptional = trainingService.getTrainingById(id);
-        trainingService.deleteTraining(id);
+        if (trainingOptional.isPresent()) {
+            trainingService.deleteTraining(id);
+        } else {
+            throw new TrainingNotFoundException(id);
+        }
     }
 
     @GetMapping("/training_id/{id}")
