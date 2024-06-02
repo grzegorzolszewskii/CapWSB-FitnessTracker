@@ -20,6 +20,6 @@ interface TrainingRepository extends JpaRepository<Training, Long> {
     @Query("SELECT t FROM Training t WHERE t.endTime < :chosenDate")
     List<Training> getTrainingsOlderThan(@Param("chosenDate") Date chosenDate);
 
-    @Query("SELECT t FROM Training t WHERE t.activityType = :activity")
-    List<Training> getTrainingsByActivity(@Param("activity") ActivityType activity);
+    @Query("SELECT t FROM Training t WHERE t.activityType = :activityType")
+    List<Training> getTrainingsByActivity(@Param("activityType") ActivityType activityType);
 }

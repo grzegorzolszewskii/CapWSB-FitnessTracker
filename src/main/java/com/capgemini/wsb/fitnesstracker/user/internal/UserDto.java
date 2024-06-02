@@ -5,8 +5,8 @@ import io.micrometer.common.lang.Nullable;
 
 import java.time.LocalDate;
 
-record UserDto(
-        @Nullable Long Id,
+public record UserDto(
+        @Nullable Long id,
         String firstName,
         String lastName,
         @JsonFormat(pattern = "yyyy-MM-dd") LocalDate birthdate,

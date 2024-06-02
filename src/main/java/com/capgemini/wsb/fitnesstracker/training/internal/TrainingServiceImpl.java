@@ -46,6 +46,24 @@ public class TrainingServiceImpl implements TrainingService, TrainingProvider {
     }
 
     @Override
+    public Training updateTraining(Long trainingId, Training trainingForUpdate) {
+        Optional<Training> existingTrainingOptional = trainingRepository.findById(trainingId);
+        if (existingTrainingOptional.isPresent()) {
+            Training existingTraining = existingTrainingOptional.get();
+            existingTraining.setUser(trainingForUpdate.getUser());
+            existingTraining.setStartTime(trainingForUpdate.getStartTime());
+            existingTraining.setEndTime(trainingForUpdate.getEndTime());
+            existingTraining.setActivityType(trainingForUpdate.getActivityType());
+            existingTraining.setDistance(trainingForUpdate.getDistance());
+            existingTraining.setAverageSpeed(trainingForUpdate.getAverageSpeed());
+            return trainingRepository.save(existingTraining);
+        } else {
+            // do poprawy
+            return null;
+        }
+    }
+
+    @Override
     public Training updateTrainingDistance(Long id, double distance) {
         Training training = trainingRepository.findById(id).get();
         training.setDistance(distance);
@@ -78,7 +96,7 @@ public class TrainingServiceImpl implements TrainingService, TrainingProvider {
     }
 
     @Override
-    public List<Training> getTrainingsByActivity(ActivityType activity) {
-        return trainingRepository.getTrainingsByActivity(activity);
+    public List<Training> getTrainingsByActivity(ActivityType activityType) {
+        return trainingRepository.getTrainingsByActivity(activityType);
     }
 }

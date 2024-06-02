@@ -7,6 +7,7 @@ package com.capgemini.wsb.fitnesstracker.training.api;
 public interface TrainingService {
 
     Training createTraining(Training training);
+    Training updateTraining(Long id, Training training);
     Training updateTrainingDistance(Long id, double distance);
     void deleteTraining(Long id);
 

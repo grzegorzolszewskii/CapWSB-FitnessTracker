@@ -30,18 +30,18 @@ class UserController {
         return userMapper.toDto(createdUser);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable Long id) {
-        Optional<User> userOptional = userService.getUserById(id);
-        userService.deleteUser(id);
-    }
-
     @PutMapping("/{id}")
     public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         User updatedUser = userService.updateUser(id, user);
         return userMapper.toDto(updatedUser);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable Long id) {
+        Optional<User> userOptional = userService.getUserById(id);
+        userService.deleteUser(id);
     }
 
     @GetMapping("/{id}")
