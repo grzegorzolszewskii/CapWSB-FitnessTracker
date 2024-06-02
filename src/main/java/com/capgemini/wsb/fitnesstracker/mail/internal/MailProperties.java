@@ -19,4 +19,5 @@ class MailProperties {
      */
     private final String from;
 
+
 }
