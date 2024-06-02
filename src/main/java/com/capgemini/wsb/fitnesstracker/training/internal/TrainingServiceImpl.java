@@ -5,6 +5,7 @@ import com.capgemini.wsb.fitnesstracker.training.api.TrainingProvider;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingService;
 import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import com.capgemini.wsb.fitnesstracker.training.internal.TrainingRepository;
+import com.capgemini.wsb.fitnesstracker.user.api.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,10 @@ public class TrainingServiceImpl implements TrainingService, TrainingProvider {
     }
 
     @Override
-    public Training updateTraining(Long id, Training training) {
-        return null;
+    public Training updateTrainingDistance(Long id, double distance) {
+        Training training = trainingRepository.findById(id).get();
+        training.setDistance(distance);
+        return trainingRepository.save(training);
     }
 
     @Override

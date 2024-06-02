@@ -1,6 +1,7 @@
 package com.capgemini.wsb.fitnesstracker.training.internal;
 
 import com.capgemini.wsb.fitnesstracker.training.api.Training;
+import com.capgemini.wsb.fitnesstracker.training.internal.TrainingDto;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingNotFoundException;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingService;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
@@ -38,13 +39,10 @@ class TrainingController {
         trainingService.deleteTraining(id);
     }
 
-    @PutMapping("/update/{id}")
-    public TrainingDto updateTraining(@PathVariable Long id, @RequestBody TrainingDto trainingDto) {
-        Optional<Training> trainingUpdated = trainingService.getTrainingById(id);
-        Training trainingForUpdate = trainingMapper.toEntity(trainingDto);
-        trainingService.updateTraining(id, trainingForUpdate);
-        return trainingMapper.toDto(trainingUpdated.get());
-        // do poprawy
+    @PutMapping("/update_distance/{id}/{distance}")
+    public TrainingDto updateUserFirstName(@PathVariable Long id, @PathVariable double distance) {
+        Training updatedTraining = trainingService.updateTrainingDistance(id, distance);
+        return trainingMapper.toDto(updatedTraining);
     }
 
     @GetMapping("/{id}")

@@ -28,8 +28,10 @@ class UserServiceImpl implements UserService, UserProvider {
     }
 
     @Override
-    public User updateUser(Long id, User user){
-        return null;
+    public User updateUserFirstName(Long id, String firstName){
+        User user = userRepository.findById(id).get();
+        user.setFirstName(firstName);
+        return userRepository.save(user);
     }
 
     @Override
@@ -43,14 +45,19 @@ class UserServiceImpl implements UserService, UserProvider {
     }
 
     @Override
-    public Optional<User> getUserByEmail(final String email) {
-        return userRepository.getUserByEmail(email);
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public List<UserSimpleDto> findAllSimpleUsers() {
+        return userRepository.findAllSimpleUsers();
     }
 
 
     @Override
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
+    public Optional<User> getUserByEmail(final String email) {
+        return userRepository.getUserByEmail(email);
     }
 
     @Override

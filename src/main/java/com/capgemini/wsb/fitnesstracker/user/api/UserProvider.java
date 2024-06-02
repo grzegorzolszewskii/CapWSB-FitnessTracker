@@ -3,6 +3,7 @@ package com.capgemini.wsb.fitnesstracker.user.api;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import com.capgemini.wsb.fitnesstracker.user.internal.UserSimpleDto;
 
 public interface UserProvider {
 
@@ -30,6 +31,8 @@ public interface UserProvider {
      * @return An {@link Optional} containing the all users,
      */
     List<User> findAllUsers();
+
+    List<UserSimpleDto> findAllSimpleUsers();
 
     List<User> findUsersOlderThan(LocalDate chosenDate);
 

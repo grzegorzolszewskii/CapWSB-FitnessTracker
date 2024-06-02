@@ -34,13 +34,10 @@ class UserController {
         userService.deleteUser(id);
     }
 
-    @PutMapping("/update/{id}")
-    public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
-        Optional<User> userUpdated = userService.getUserById(id);
-        User userForUpdate = userMapper.toEntity(userDto);
-        userService.updateUser(id, userForUpdate);
-        return userMapper.toDto(userUpdated.get());
-        // do poprawy
+    @PutMapping("/update_firstname/{id}/{firstName}")
+    public UserDto updateUserFirstName(@PathVariable Long id, @PathVariable String firstName) {
+        User updatedUser = userService.updateUserFirstName(id, firstName);
+        return userMapper.toDto(updatedUser);
     }
 
     @GetMapping("/{id}")
@@ -59,6 +56,11 @@ class UserController {
                 .stream()
                 .map(userMapper::toDto)
                 .toList();
+    }
+
+    @GetMapping("/simple")
+    public List<UserSimpleDto> getSimpleUsers() {
+        return userService.findAllSimpleUsers();
     }
 
     @GetMapping("/email")

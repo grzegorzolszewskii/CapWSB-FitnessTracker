@@ -26,6 +26,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
                         .findFirst();
     }
 
+    @Query("SELECT new com.capgemini.wsb.fitnesstracker.user.internal.UserSimpleDto(u.firstName, u.lastName) FROM User u")
+    List<UserSimpleDto> findAllSimpleUsers();
+
     @Query("SELECT u FROM User u WHERE u.birthdate < :chosenDate")
     List<User> findUsersOlderThan(@Param("chosenDate") LocalDate chosenDate);
 
