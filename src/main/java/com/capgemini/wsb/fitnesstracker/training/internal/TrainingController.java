@@ -79,7 +79,7 @@ class TrainingController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/activity")
+    @GetMapping("/activityType")
     public List<TrainingDto> getTrainingsByActivity(ActivityType activity){
         return trainingService.getTrainingsByActivity(activity)
                 .stream()

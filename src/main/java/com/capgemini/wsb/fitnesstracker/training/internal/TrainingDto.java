@@ -1,18 +1,30 @@
 package com.capgemini.wsb.fitnesstracker.training.internal;
 
-import com.capgemini.wsb.fitnesstracker.training.internal.ActivityType;
-import com.capgemini.wsb.fitnesstracker.user.api.User;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.capgemini.wsb.fitnesstracker.user.internal.UserDto;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.Date;
 
-record TrainingDto(
-    Long id,
-    Long userId,
-    @JsonFormat(pattern = "yyyy-MM-dd") Date startTime,
-    @JsonFormat(pattern = "yyyy-MM-dd") Date endTime,
-    ActivityType activityType,
-    double distance,
-    double averageSpeed) {
+@Getter
+@Setter
+public class TrainingDto {
+
+    private Long id;
+    private UserDto user;
+    private Date startTime;
+    private Date endTime;
+    private ActivityType activityType;
+    private double distance;
+    private double averageSpeed;
+
+    public TrainingDto(Long id, UserDto user, Date startTime, Date endTime, ActivityType activityType, double distance, double averageSpeed) {
+        this.id = id;
+        this.user = user;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.activityType = activityType;
+        this.distance = distance;
+        this.averageSpeed = averageSpeed;
+    }
 }
