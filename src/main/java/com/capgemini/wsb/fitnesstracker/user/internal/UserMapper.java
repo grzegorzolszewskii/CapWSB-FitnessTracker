@@ -16,10 +16,10 @@ public class UserMapper {
 
     public User toEntity(UserDto userDto) {
         return new User(
-                        userDto.getFirstName(),
-                        userDto.getLastName(),
-                        userDto.getBirthdate(),
-                        userDto.getEmail());
+                        userDto.firstName(),
+                        userDto.lastName(),
+                        userDto.birthdate(),
+                        userDto.email());
     }
 
 }

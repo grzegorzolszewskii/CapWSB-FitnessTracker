@@ -6,8 +6,10 @@ import com.capgemini.wsb.fitnesstracker.training.api.TrainingService;
 import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import com.capgemini.wsb.fitnesstracker.training.internal.TrainingRepository;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
+import com.capgemini.wsb.fitnesstracker.user.internal.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,10 +22,22 @@ import java.util.Optional;
 @Slf4j
 public class TrainingServiceImpl implements TrainingService, TrainingProvider {
 
+    @Autowired
     private final TrainingRepository trainingRepository;
+
+    @Autowired
+    private final UserRepository userRepository;
 
     @Override
     public Training createTraining(Training training) {
+        if (training.getUser().getId() == null) {
+            throw new IllegalArgumentException("User id must not be null");
+        }
+
+        User user = userRepository.findById(training.getUser().getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        training.setUser(user);
+
         log.info("Creating Training {}", training);
         if (training.getId() != null) {
             throw new IllegalArgumentException("Training has already DB ID, update is not permitted!");
