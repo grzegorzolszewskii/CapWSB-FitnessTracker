@@ -1,6 +1,8 @@
 package com.capgemini.wsb.fitnesstracker.user.internal;
 
+import com.capgemini.wsb.fitnesstracker.training.api.TrainingNotFoundException;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
+import com.capgemini.wsb.fitnesstracker.user.api.UserNotFoundException;
 import com.capgemini.wsb.fitnesstracker.user.api.UserProvider;
 import com.capgemini.wsb.fitnesstracker.user.api.UserService;
 import lombok.RequiredArgsConstructor;
@@ -38,26 +40,40 @@ class UserServiceImpl implements UserService, UserProvider {
             existingUser.setEmail(userForUpdate.getEmail());
             return userRepository.save(existingUser);
         } else {
-            // do poprawy
-            return null;
+            throw new UserNotFoundException(userId);
         }
     }
 
     @Override
     public User updateUserFirstName(Long id, String firstName) {
-        User user = userRepository.findById(id).get();
-        user.setFirstName(firstName);
-        return userRepository.save(user);
+        Optional<User> existingUserOptional = userRepository.findById(id);
+        if (existingUserOptional.isPresent()) {
+            User user = existingUserOptional.get();
+            user.setFirstName(firstName);
+            return userRepository.save(user);
+        } else {
+            throw new UserNotFoundException(id);
+        }
     }
 
     @Override
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+        Optional<User> existingUserOptional = userRepository.findById(id);
+        if (existingUserOptional.isPresent()) {
+            userRepository.deleteById(id);
+        } else {
+            throw new UserNotFoundException(id);
+        }
     }
 
     @Override
     public Optional<User> getUserById(final Long userId) {
-        return userRepository.findById(userId);
+        Optional<User> existingUserOptional = userRepository.findById(userId);
+        if (existingUserOptional.isPresent()) {
+            return userRepository.findById(userId);
+        } else {
+            throw new UserNotFoundException(userId);
+        }
     }
 
     @Override

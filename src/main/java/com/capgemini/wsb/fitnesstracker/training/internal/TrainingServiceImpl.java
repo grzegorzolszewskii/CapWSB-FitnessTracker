@@ -1,6 +1,7 @@
 package com.capgemini.wsb.fitnesstracker.training.internal;
 
 import com.capgemini.wsb.fitnesstracker.training.api.Training;
+import com.capgemini.wsb.fitnesstracker.training.api.TrainingNotFoundException;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingProvider;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingService;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
@@ -28,11 +29,10 @@ public class TrainingServiceImpl implements TrainingService, TrainingProvider {
     @Override
     public Training createTraining(Training training) {
         if (training.getUser().getId() == null) {
-            throw new IllegalArgumentException("User id must not be null");
+            throw new IllegalArgumentException("User ID can not be null");
         }
 
-        User user = userRepository.findById(training.getUser().getId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(training.getUser().getId()).get();
         training.setUser(user);
 
         log.info("Creating Training {}", training);
@@ -55,26 +55,40 @@ public class TrainingServiceImpl implements TrainingService, TrainingProvider {
             existingTraining.setAverageSpeed(trainingForUpdate.getAverageSpeed());
             return trainingRepository.save(existingTraining);
         } else {
-            // do poprawy
-            return null;
+            throw new TrainingNotFoundException(trainingId);
         }
     }
 
     @Override
     public Training updateTrainingDistance(Long id, double distance) {
-        Training training = trainingRepository.findById(id).get();
-        training.setDistance(distance);
-        return trainingRepository.save(training);
+        Optional<Training> existingTrainingOptional = trainingRepository.findById(id);
+        if (existingTrainingOptional.isPresent()) {
+            Training training = existingTrainingOptional.get();
+            training.setDistance(distance);
+            return trainingRepository.save(training);
+        } else {
+            throw new TrainingNotFoundException(id);
+        }
     }
 
     @Override
     public void deleteTraining(Long id) {
-        trainingRepository.deleteById(id);
+        Optional<Training> existingTrainingOptional = trainingRepository.findById(id);
+        if (existingTrainingOptional.isPresent()) {
+            trainingRepository.deleteById(id);
+        } else {
+            throw new TrainingNotFoundException(id);
+        }
     }
 
     @Override
     public Optional<Training> getTrainingById(final Long trainingId) {
-        return trainingRepository.findById(trainingId);
+        Optional<Training> existingTrainingOptional = trainingRepository.findById(trainingId);
+        if (existingTrainingOptional.isPresent()) {
+            return trainingRepository.findById(trainingId);
+        } else {
+            throw new TrainingNotFoundException(trainingId);
+        }
     }
 
     @Override

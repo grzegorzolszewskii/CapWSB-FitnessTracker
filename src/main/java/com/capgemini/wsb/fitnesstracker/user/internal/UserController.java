@@ -74,13 +74,11 @@ class UserController {
     }
 
     @GetMapping("/email")
-    public UserDto getUserByEmail(@RequestParam String email) {
-        Optional<User> userOptional = userService.getUserByEmail(email);
-        if (userOptional.isPresent()) {
-            return userMapper.toDto(userOptional.get());
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public List<UserDto> getUserByEmail(@RequestParam String email) {
+        return userService.getUserByEmail(email)
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/older/{chosenDate}")

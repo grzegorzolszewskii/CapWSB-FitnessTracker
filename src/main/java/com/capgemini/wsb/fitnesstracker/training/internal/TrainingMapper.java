@@ -1,5 +1,6 @@
 package com.capgemini.wsb.fitnesstracker.training.internal;
 
+import com.capgemini.wsb.fitnesstracker.user.api.UserNotFoundException;
 import com.capgemini.wsb.fitnesstracker.user.internal.UserMapper;
 import com.capgemini.wsb.fitnesstracker.user.internal.UserRepository;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
@@ -42,7 +43,8 @@ public class TrainingMapper {
 
     public Training toEntity(TrainingDto trainingDto) {
 
-        User user = userRepository.findById(trainingDto.userId()).get();
+        User user = userRepository.findById(trainingDto.userId())
+                .orElseThrow(() -> new UserNotFoundException(trainingDto.userId()));
 
         return new Training(
                 user,
